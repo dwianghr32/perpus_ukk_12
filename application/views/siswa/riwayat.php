@@ -22,7 +22,6 @@
                             <th>Batas Kembali</th>
                             <th>Status</th>
                             <th>Denda</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,15 +50,6 @@
                                     <span class="text-danger">Rp <?= number_format($r['denda'], 0, ',', '.') ?></span>
                                 <?php else: ?>
                                     -
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php if ($r['status'] == 'dipinjam'): ?>
-                                    <a href="<?= base_url('peminjaman/kembali/' . $r['id']) ?>" class="btn btn-sm btn-success" onclick="return confirm('Kembalikan buku ini?')">
-                                        <i class="bi bi-arrow-return-left me-1"></i>Kembalikan
-                                    </a>
-                                <?php else: ?>
-                                    <span class="text-muted">-</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
