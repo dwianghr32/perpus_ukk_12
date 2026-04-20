@@ -3,9 +3,17 @@
         <h2><i class="bi bi-arrow-left-right me-2"></i>Kelola Transaksi</h2>
         <p class="text-muted mb-0">Manajemen transaksi peminjaman buku</p>
     </div>
-    <a href="<?= base_url('transaksi/tambah') ?>" class="btn btn-primary">
-        <i class="bi bi-plus-circle me-2"></i>Transaksi Baru
-    </a>
+    <div>
+        <a href="<?= base_url('transaksi/tambah') ?>" class="btn btn-primary me-2">
+            <i class="bi bi-plus-circle me-2"></i>Transaksi Baru
+        </a>
+        
+        <!-- Tombol Cetak PDF -->
+        <a href="<?= base_url('transaksi/cetak_pdf') ?>?<?= http_build_query($_GET ?? []) ?>" 
+           class="btn btn-success" target="_blank">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Cetak PDF
+        </a>
+    </div>
 </div>
 
 <!-- Filter Form -->
