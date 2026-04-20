@@ -17,7 +17,21 @@ class Anggota extends CI_Controller {
 
     public function index() {
         $data['title'] = 'Kelola Data Anggota';
-        $data['anggota'] = $this->Anggota_model->get_all();
+        
+        // Handle filters
+        $filters = array();
+        if ($this->input->get('search')) {
+            $filters['search'] = $this->input->get('search');
+        }
+        if ($this->input->get('kelas')) {
+            $filters['kelas'] = $this->input->get('kelas');
+        }
+        
+        $data['anggota'] = $this->Anggota_model->get_filtered($filters);
+        $data['filters'] = $filters;
+        
+        // Get classes for filter dropdown
+        $data['kelas_options'] = $this->Anggota_model->get_classes();
         
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar_admin', $data);

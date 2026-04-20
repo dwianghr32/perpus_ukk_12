@@ -6,7 +6,7 @@
                 <i class="bi bi-book-half" style="font-size: 48px; color: #00b894;"></i>
             </div>
             <h4 style="color: white; font-weight: 700;">Perpustakaan</h4>
-            <p style="color: #6c757d; font-size: 0.85rem;">Digital Library System</p>
+            <p style="color: #6c757d; font-size: 0.85rem;"> Library System</p>
         </div>
 
         <div class="user-info text-center mb-4 p-3" style="background: rgba(255,255,255,0.05); border-radius: 12px;">

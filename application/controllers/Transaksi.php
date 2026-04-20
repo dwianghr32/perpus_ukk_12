@@ -19,7 +19,30 @@ class Transaksi extends CI_Controller {
 
     public function index() {
         $data['title'] = 'Kelola Transaksi';
-        $data['transaksi'] = $this->Peminjaman_model->get_all_with_detail();
+        
+        // Handle filters
+        $filters = array();
+        if ($this->input->get('search')) {
+            $filters['search'] = $this->input->get('search');
+        }
+        if ($this->input->get('status')) {
+            $filters['status'] = $this->input->get('status');
+        }
+        if ($this->input->get('tanggal_mulai')) {
+            $filters['tanggal_mulai'] = $this->input->get('tanggal_mulai');
+        }
+        if ($this->input->get('tanggal_akhir')) {
+            $filters['tanggal_akhir'] = $this->input->get('tanggal_akhir');
+        }
+        
+        if (!empty($filters)) {
+            $data['transaksi'] = $this->Peminjaman_model->get_filtered_admin($filters);
+        } else {
+            $data['transaksi'] = $this->Peminjaman_model->get_all_with_detail();
+        }
+        
+        // Pass filter values back to view
+        $data['filters'] = $filters;
         
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar_admin', $data);

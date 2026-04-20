@@ -17,7 +17,27 @@ class Buku extends CI_Controller {
 
     public function index() {
         $data['title'] = 'Kelola Data Buku';
-        $data['buku'] = $this->Buku_model->get_all();
+        
+        // Handle filters
+        $filters = array();
+        if ($this->input->get('search')) {
+            $filters['search'] = $this->input->get('search');
+        }
+        if ($this->input->get('kategori')) {
+            $filters['kategori'] = $this->input->get('kategori');
+        }
+        if ($this->input->get('tahun')) {
+            $filters['tahun'] = $this->input->get('tahun');
+        }
+        if ($this->input->get('stok')) {
+            $filters['stok'] = $this->input->get('stok');
+        }
+        
+        $data['buku'] = $this->Buku_model->get_filtered_admin($filters);
+        $data['filters'] = $filters;
+        
+        // Get categories for filter dropdown
+        $data['kategori_options'] = $this->Buku_model->get_categories();
         
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar_admin', $data);

@@ -8,6 +8,49 @@
     </a>
 </div>
 
+<!-- Filter Section -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label for="search" class="form-label">Cari Buku</label>
+                <input type="text" class="form-control" id="search" name="search" placeholder="Judul, pengarang, kode" value="<?= isset($filters['search']) ? htmlspecialchars($filters['search']) : '' ?>">
+            </div>
+            <div class="col-md-2">
+                <label for="kategori" class="form-label">Kategori</label>
+                <select class="form-select" id="kategori" name="kategori">
+                    <option value="">Semua Kategori</option>
+                    <?php foreach ($kategori_options as $kat): ?>
+                        <option value="<?= htmlspecialchars($kat['kategori']) ?>" <?= (isset($filters['kategori']) && $filters['kategori'] == $kat['kategori']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($kat['kategori']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="tahun" class="form-label">Tahun</label>
+                <input type="number" class="form-control" id="tahun" name="tahun" placeholder="Tahun terbit" value="<?= isset($filters['tahun']) ? htmlspecialchars($filters['tahun']) : '' ?>">
+            </div>
+            <div class="col-md-2">
+                <label for="stok" class="form-label">Status Stok</label>
+                <select class="form-select" id="stok" name="stok">
+                    <option value="">Semua Stok</option>
+                    <option value="available" <?= (isset($filters['stok']) && $filters['stok'] == 'available') ? 'selected' : '' ?>>Tersedia</option>
+                    <option value="empty" <?= (isset($filters['stok']) && $filters['stok'] == 'empty') ? 'selected' : '' ?>>Habis</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary me-2" onclick="applyFilters()">
+                    <i class="bi bi-search me-1"></i>Filter
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="clearFilters()">
+                    <i class="bi bi-x-circle me-1"></i>Reset
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
@@ -59,3 +102,30 @@
         </div>
     </div>
 </div>
+
+<script>
+function applyFilters() {
+    const search = document.getElementById('search').value;
+    const kategori = document.getElementById('kategori').value;
+    const tahun = document.getElementById('tahun').value;
+    const stok = document.getElementById('stok').value;
+    
+    let url = '<?= base_url('buku') ?>?';
+    const params = [];
+    
+    if (search) params.push('search=' + encodeURIComponent(search));
+    if (kategori) params.push('kategori=' + encodeURIComponent(kategori));
+    if (tahun) params.push('tahun=' + encodeURIComponent(tahun));
+    if (stok) params.push('stok=' + encodeURIComponent(stok));
+    
+    if (params.length > 0) {
+        url += params.join('&');
+    }
+    
+    window.location.href = url;
+}
+
+function clearFilters() {
+    window.location.href = '<?= base_url('buku') ?>';
+}
+</script>

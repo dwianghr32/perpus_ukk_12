@@ -51,6 +51,59 @@ class Peminjaman_model extends CI_Model {
         return $this->db->get()->result_array();
     }
 
+    public function get_filtered_riwayat($id_anggota, $filters = array()) {
+        $this->db->select('peminjaman.*, buku.judul, buku.kode_buku, buku.pengarang');
+        $this->db->from($this->table);
+        $this->db->join('buku', 'buku.id = peminjaman.id_buku');
+        $this->db->where('peminjaman.id_anggota', $id_anggota);
+        
+        if (!empty($filters['status'])) {
+            $this->db->where('peminjaman.status', $filters['status']);
+        }
+        
+        if (!empty($filters['search'])) {
+            $this->db->like('buku.judul', $filters['search']);
+            $this->db->or_like('buku.pengarang', $filters['search']);
+            $this->db->or_like('buku.kode_buku', $filters['search']);
+        }
+        
+        if (!empty($filters['tanggal_mulai']) && !empty($filters['tanggal_akhir'])) {
+            $this->db->where('peminjaman.tanggal_pinjam >=', $filters['tanggal_mulai']);
+            $this->db->where('peminjaman.tanggal_pinjam <=', $filters['tanggal_akhir']);
+        }
+        
+        $this->db->order_by('peminjaman.created_at', 'DESC');
+        return $this->db->get()->result_array();
+    }
+
+    public function get_filtered_admin($filters = array()) {
+        $this->db->select('peminjaman.*, buku.judul, buku.kode_buku, anggota.nama, anggota.nis');
+        $this->db->from($this->table);
+        $this->db->join('buku', 'buku.id = peminjaman.id_buku');
+        $this->db->join('anggota', 'anggota.id = peminjaman.id_anggota');
+        
+        if (!empty($filters['status'])) {
+            $this->db->where('peminjaman.status', $filters['status']);
+        }
+        
+        if (!empty($filters['search'])) {
+            $this->db->group_start();
+            $this->db->like('anggota.nama', $filters['search']);
+            $this->db->or_like('anggota.nis', $filters['search']);
+            $this->db->or_like('buku.judul', $filters['search']);
+            $this->db->or_like('buku.kode_buku', $filters['search']);
+            $this->db->group_end();
+        }
+        
+        if (!empty($filters['tanggal_mulai']) && !empty($filters['tanggal_akhir'])) {
+            $this->db->where('peminjaman.tanggal_pinjam >=', $filters['tanggal_mulai']);
+            $this->db->where('peminjaman.tanggal_pinjam <=', $filters['tanggal_akhir']);
+        }
+        
+        $this->db->order_by('peminjaman.created_at', 'DESC');
+        return $this->db->get()->result_array();
+    }
+
     public function get_recent($limit = 5) {
         $this->db->select('peminjaman.*, buku.judul, anggota.nama');
         $this->db->from($this->table);

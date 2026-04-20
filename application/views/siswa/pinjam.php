@@ -3,6 +3,38 @@
     <p class="text-muted mb-0">Pilih buku yang ingin dipinjam</p>
 </div>
 
+<!-- Filter and Print Section -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label for="search" class="form-label">Cari Buku</label>
+                <input type="text" class="form-control" id="search" name="search" placeholder="Judul, pengarang, atau kode buku" value="<?= isset($filters['search']) ? htmlspecialchars($filters['search']) : '' ?>">
+            </div>
+            <div class="col-md-3">
+                <label for="kategori" class="form-label">Kategori</label>
+                <select class="form-select" id="kategori" name="kategori">
+                    <option value="">Semua Kategori</option>
+                    <?php foreach ($kategori_options as $kat): ?>
+                        <option value="<?= htmlspecialchars($kat['kategori']) ?>" <?= (isset($filters['kategori']) && $filters['kategori'] == $kat['kategori']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($kat['kategori']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="tahun" class="form-label">Tahun</label>
+                <input type="number" class="form-control" id="tahun" name="tahun" placeholder="Tahun terbit" value="<?= isset($filters['tahun']) ? htmlspecialchars($filters['tahun']) : '' ?>">
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary me-2" onclick="applyFilters()">
+                    <i class="bi bi-search me-1"></i>Filter
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <?php if (empty($buku)): ?>
         <div class="col-12">
@@ -57,3 +89,55 @@
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
+
+<script>
+function applyFilters() {
+    const search = document.getElementById('search').value;
+    const kategori = document.getElementById('kategori').value;
+    const tahun = document.getElementById('tahun').value;
+    
+    let url = '<?= base_url('peminjaman') ?>?';
+    const params = [];
+    
+    if (search) params.push('search=' + encodeURIComponent(search));
+    if (kategori) params.push('kategori=' + encodeURIComponent(kategori));
+    if (tahun) params.push('tahun=' + encodeURIComponent(tahun));
+    
+    if (params.length > 0) {
+        url += params.join('&');
+    }
+    
+    window.location.href = url;
+}
+
+function printToPDF() {
+    window.print();
+}
+</script>
+
+<style>
+@media print {
+    .card-footer .btn, .page-header, .card.mb-4 {
+        display: none !important;
+    }
+    .card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+    }
+    .card-body {
+        padding: 10px !important;
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .col-md-6, .col-lg-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    @page {
+        margin: 1cm;
+    }
+}
+</style>

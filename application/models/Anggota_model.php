@@ -38,4 +38,27 @@ class Anggota_model extends CI_Model {
     public function count_all() {
         return $this->db->count_all($this->table);
     }
+
+    public function get_filtered($filters = array()) {
+        if (!empty($filters['search'])) {
+            $this->db->like('nama', $filters['search']);
+            $this->db->or_like('nis', $filters['search']);
+        }
+        
+        if (!empty($filters['kelas'])) {
+            $this->db->where('kelas', $filters['kelas']);
+        }
+        
+        $this->db->order_by('nama', 'ASC');
+        return $this->db->get($this->table)->result_array();
+    }
+
+    public function get_classes() {
+        $this->db->select('kelas');
+        $this->db->distinct();
+        $this->db->where('kelas IS NOT NULL');
+        $this->db->where('kelas !=', '');
+        $this->db->order_by('kelas', 'ASC');
+        return $this->db->get($this->table)->result_array();
+    }
 }

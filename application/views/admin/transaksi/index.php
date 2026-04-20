@@ -8,6 +8,46 @@
     </a>
 </div>
 
+<!-- Filter Form -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="GET" action="<?= base_url('transaksi') ?>" class="row g-3">
+            <div class="col-md-3">
+                <label for="search" class="form-label">Cari</label>
+                <input type="text" class="form-control" id="search" name="search" 
+                       value="<?= isset($filters['search']) ? htmlspecialchars($filters['search']) : '' ?>" 
+                       placeholder="Nama, NIS, Judul Buku, Kode Buku">
+            </div>
+            <div class="col-md-2">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="">Semua Status</option>
+                    <option value="dipinjam" <?= (isset($filters['status']) && $filters['status'] == 'dipinjam') ? 'selected' : '' ?>>Dipinjam</option>
+                    <option value="dikembalikan" <?= (isset($filters['status']) && $filters['status'] == 'dikembalikan') ? 'selected' : '' ?>>Dikembalikan</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
+                <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" 
+                       value="<?= isset($filters['tanggal_mulai']) ? $filters['tanggal_mulai'] : '' ?>">
+            </div>
+            <div class="col-md-2">
+                <label for="tanggal_akhir" class="form-label">Tanggal Akhir</label>
+                <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir" 
+                       value="<?= isset($filters['tanggal_akhir']) ? $filters['tanggal_akhir'] : '' ?>">
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="bi bi-search me-1"></i>Filter
+                </button>
+                <a href="<?= base_url('transaksi') ?>" class="btn btn-outline-secondary me-2">
+                    <i class="bi bi-x-circle me-1"></i>Reset
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">

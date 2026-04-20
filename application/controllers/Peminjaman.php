@@ -19,7 +19,24 @@ class Peminjaman extends CI_Controller {
 
     public function index() {
         $data['title'] = 'Daftar Buku';
-        $data['buku'] = $this->Buku_model->get_available();
+        
+        // Handle filters
+        $filters = array();
+        if ($this->input->get('search')) {
+            $filters['search'] = $this->input->get('search');
+        }
+        if ($this->input->get('kategori')) {
+            $filters['kategori'] = $this->input->get('kategori');
+        }
+        if ($this->input->get('tahun')) {
+            $filters['tahun'] = $this->input->get('tahun');
+        }
+        
+        $data['buku'] = $this->Buku_model->get_filtered($filters);
+        $data['filters'] = $filters;
+        
+        // Get categories for filter dropdown
+        $data['kategori_options'] = $this->Buku_model->get_categories();
         
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar_siswa', $data);
@@ -66,7 +83,24 @@ class Peminjaman extends CI_Controller {
         $id_anggota = $this->session->userdata('id_anggota');
         
         $data['title'] = 'Riwayat Peminjaman';
-        $data['riwayat'] = $this->Peminjaman_model->get_by_anggota_with_detail($id_anggota);
+        
+        // Handle filters
+        $filters = array();
+        if ($this->input->get('status')) {
+            $filters['status'] = $this->input->get('status');
+        }
+        if ($this->input->get('search')) {
+            $filters['search'] = $this->input->get('search');
+        }
+        if ($this->input->get('tanggal_mulai')) {
+            $filters['tanggal_mulai'] = $this->input->get('tanggal_mulai');
+        }
+        if ($this->input->get('tanggal_akhir')) {
+            $filters['tanggal_akhir'] = $this->input->get('tanggal_akhir');
+        }
+        
+        $data['riwayat'] = $this->Peminjaman_model->get_filtered_riwayat($id_anggota, $filters);
+        $data['filters'] = $filters;
         
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar_siswa', $data);

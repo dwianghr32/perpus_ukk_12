@@ -6,7 +6,7 @@
                 <i class="bi bi-book-half" style="font-size: 48px; color: #667eea;"></i>
             </div>
             <h4 style="color: white; font-weight: 700;">Perpustakaan</h4>
-            <p style="color: #6c757d; font-size: 0.85rem;">Digital Library System</p>
+            <p style="color: #6c757d; font-size: 0.85rem;"> Library System</p>
         </div>
 
         <div class="user-info text-center mb-4 p-3" style="background: rgba(255,255,255,0.05); border-radius: 12px;">
@@ -42,6 +42,12 @@
                     <span>Transaksi</span>
                 </a>
             </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link <?= $this->uri->segment(1) == 'laporan' ? 'active' : '' ?>" href="<?= site_url('laporan') ?>" style="color: #a5b4fc; padding: 12px 15px; border-radius: 10px; display: flex; align-items: center; gap: 12px; transition: all 0.3s;">
+                    <i class="bi bi-graph-up" style="font-size: 18px;"></i>
+                    <span>Laporan</span>
+                </a>
+            </li>
             <li class="nav-item mt-4">
                 <a class="nav-link" href="<?= site_url('auth/logout') ?>" style="color: #e17055; padding: 12px 15px; border-radius: 10px; display: flex; align-items: center; gap: 12px; transition: all 0.3s;">
                     <i class="bi bi-box-arrow-right" style="font-size: 18px;"></i>
@@ -68,10 +74,3 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         <?php endif; ?>
-
-    <style>
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background: rgba(102, 126, 234, 0.2) !important;
-            color: white !important;
-        }
-    </style>

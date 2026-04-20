@@ -19,24 +19,59 @@
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            bottom: -50px;
+            right: -50px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 30px); }
         }
 
         .register-container {
             width: 100%;
             max-width: 500px;
+            position: relative;
+            z-index: 1;
         }
 
         .register-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 0 0 100px rgba(102, 126, 234, 0.1);
             animation: slideUp 0.6s ease-out;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         @keyframes slideUp {
@@ -57,10 +92,16 @@
 
         .logo i {
             font-size: 56px;
-            background: linear-gradient(135deg, #00b894, #00cec9);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(240, 147, 251, 0.5)); }
         }
 
         .logo h1 {
@@ -87,11 +128,13 @@
             height: 55px;
             font-size: 15px;
             transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.7);
         }
 
         .form-floating .form-control:focus {
-            border-color: #00b894;
-            box-shadow: 0 0 0 4px rgba(0, 184, 148, 0.15);
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+            background: white;
         }
 
         .form-floating label {
@@ -107,7 +150,7 @@
             font-weight: 600;
             border: none;
             border-radius: 12px;
-            background: linear-gradient(135deg, #00b894, #00cec9);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -116,7 +159,8 @@
 
         .btn-register:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 184, 148, 0.4);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #764ba2, #667eea);
         }
 
         .login-link {
@@ -126,9 +170,14 @@
         }
 
         .login-link a {
-            color: #00b894;
+            color: #667eea;
             text-decoration: none;
             font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #764ba2;
         }
 
         .alert {
